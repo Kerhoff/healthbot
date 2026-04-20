@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthbot
+  namespace: healthbot
+  labels:
+    app: healthbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthbot
+  template:
+    metadata:
+      labels:
+        app: healthbot
+    spec:
+      containers:
+        - name: healthbot
+          image: registry.nebius.local/healthbot:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: healthz
+          envFrom:
+            - secretRef:
+                name: healthbot-secrets
+            - configMapRef:
+                name: healthbot-config
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      restartPolicy: Always

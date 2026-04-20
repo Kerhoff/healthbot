@@ -1,0 +1,165 @@
+{
+  "__inputs": [],
+  "__requires": [
+    {"type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0"},
+    {"type": "datasource", "id": "prometheus", "name": "Prometheus", "version": "1.0.0"}
+  ],
+  "annotations": {"list": []},
+  "description": "HealthBot personal health tracking dashboard",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "short"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "id": 1,
+      "options": {"tooltip": {"mode": "single"}},
+      "targets": [
+        {
+          "expr": "healthbot_weight_kg{user=\"asl\"}",
+          "legendFormat": "Weight (kg)",
+          "refId": "A"
+        }
+      ],
+      "title": "Weight",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "h"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "id": 2,
+      "targets": [
+        {
+          "expr": "healthbot_fast_duration_hours{user=\"asl\"}",
+          "legendFormat": "Fast duration (h)",
+          "refId": "A"
+        }
+      ],
+      "title": "Fasting Duration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "kcal"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "id": 3,
+      "targets": [
+        {
+          "expr": "increase(healthbot_meal_calories_total{user=\"asl\"}[1d])",
+          "legendFormat": "Calories ({{meal_type}})",
+          "refId": "A"
+        }
+      ],
+      "title": "Daily Calories",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "g"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "id": 4,
+      "targets": [
+        {
+          "expr": "healthbot_meal_protein_g{user=\"asl\"}",
+          "legendFormat": "Protein",
+          "refId": "A"
+        },
+        {
+          "expr": "healthbot_meal_carbs_g{user=\"asl\"}",
+          "legendFormat": "Carbs",
+          "refId": "B"
+        },
+        {
+          "expr": "healthbot_meal_fat_g{user=\"asl\"}",
+          "legendFormat": "Fat",
+          "refId": "C"
+        }
+      ],
+      "title": "Macros",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "short"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "id": 5,
+      "targets": [
+        {
+          "expr": "increase(healthbot_medication_event_total{user=\"asl\",status=\"taken\"}[1d])",
+          "legendFormat": "Taken",
+          "refId": "A"
+        },
+        {
+          "expr": "increase(healthbot_medication_event_total{user=\"asl\",status=\"skipped\"}[1d])",
+          "legendFormat": "Skipped",
+          "refId": "B"
+        }
+      ],
+      "title": "Medication Events",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {
+        "defaults": {"color": {"mode": "palette-classic"}, "unit": "cm"},
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "id": 6,
+      "targets": [
+        {
+          "expr": "healthbot_body_measurement_cm{user=\"asl\"}",
+          "legendFormat": "{{part}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Body Measurements",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 38,
+  "tags": ["healthbot", "health", "personal"],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {"from": "now-30d", "to": "now"},
+  "timepicker": {},
+  "timezone": "Europe/Amsterdam",
+  "title": "HealthBot",
+  "uid": "healthbot-v1",
+  "version": 1
+}

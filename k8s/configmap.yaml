@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: healthbot-config
+  namespace: healthbot
+data:
+  TZ: "Europe/Amsterdam"
+  ALLOWED_TELEGRAM_ID: "123456789"
+  HEALTHZ_PORT: "8080"
